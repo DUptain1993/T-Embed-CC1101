@@ -562,8 +562,6 @@ String generalKeyboard(
 
     tft.fillScreen(bruceConfig.bgColor); // reset the screen
 
-    uint8_t longNextPress = 0;
-    uint8_t longPrevPress = 0;
     unsigned long LongPressTmp = millis();
 
     // main loop

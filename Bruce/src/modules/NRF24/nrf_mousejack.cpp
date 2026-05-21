@@ -897,7 +897,7 @@ static void mj_attackMenu(int targetIndex) {
     options = {
         {"Inject String", [&]() { mj_attackString(targetIndex); }},
         {"DuckyScript",   [&]() { mj_attackDucky(targetIndex); } },
-        {"Back",          [=]() { /* return */ }                 },
+        {"Back",          [=, this]() { /* return */ }                 },
     };
 
     String title = String("[") + mj_getTypeLabel(target.type) + "] " + mj_formatAddr(target);
@@ -934,20 +934,20 @@ static void mj_targetListMenu() {
 void nrf_mousejack() {
     options = {
         {"Set NRF Mode",
-         [=]() {
+         [=, this]() {
              NRF24_MODE selected = nrf_setMode();
              if (selected != NRF_MODE_DISABLED) mj_nrfMode = selected;
          }                                             },
         {"Scan Devices",
-         [=]() {
+         [=, this]() {
              if (mj_scan()) {
                  mj_targetListMenu();
              } else {
                  displayInfo("No devices found", true);
              }
          }                                             },
-        {"View Targets", [=]() { mj_targetListMenu(); }},
-        {"Main Menu",    [=]() { returnToMenu = true; }},
+        {"View Targets", [=, this]() { mj_targetListMenu(); }},
+        {"Main Menu",    [=, this]() { returnToMenu = true; }},
     };
 
     loopOptions(options, MENU_TYPE_SUBMENU, "MouseJack");

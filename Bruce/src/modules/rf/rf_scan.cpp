@@ -447,12 +447,12 @@ void RFScan::set_range() {
 
     options = {
         {String("Fxd [" + String(bruceConfigPins.rfFreq) + "]").c_str(),
-         [=]() { bruceConfigPins.setRfScanRange(bruceConfigPins.rfScanRange, 1); } },
+         [=, this]() { bruceConfigPins.setRfScanRange(bruceConfigPins.rfScanRange, 1); } },
         {"Choose Fxd",                                                   [&]() { chooseFixedOpt = true; } },
-        {subghz_frequency_ranges[0],                                     [=]() {
-bruceConfigPins.setRfScanRange(0); }}, {subghz_frequency_ranges[1],                                     [=]()
-{ bruceConfigPins.setRfScanRange(1); }}, {subghz_frequency_ranges[2], [=]() {
-bruceConfigPins.setRfScanRange(2); }}, {subghz_frequency_ranges[3],                                     [=]()
+        {subghz_frequency_ranges[0],                                     [=, this]() {
+bruceConfigPins.setRfScanRange(0); }}, {subghz_frequency_ranges[1],                                     [=, this]()
+{ bruceConfigPins.setRfScanRange(1); }}, {subghz_frequency_ranges[2], [=, this]() {
+bruceConfigPins.setRfScanRange(2); }}, {subghz_frequency_ranges[3],                                     [=, this]()
 { bruceConfigPins.setRfScanRange(3); }},
     };
 
@@ -464,7 +464,7 @@ bruceConfigPins.setRfScanRange(2); }}, {subghz_frequency_ranges[3],             
         int arraySize = sizeof(subghz_frequency_list) / sizeof(subghz_frequency_list[0]);
         for (int i = 0; i < arraySize; i++) {
             String tmp = String(subghz_frequency_list[i], 2) + "Mhz";
-            options.emplace_back(tmp.c_str(), [=]() { bruceConfigPins.rfFreq = subghz_frequency_list[i]; });
+            options.emplace_back(tmp.c_str(), [=, this]() { bruceConfigPins.rfFreq = subghz_frequency_list[i]; });
             if (int(frequency * 100) == int(subghz_frequency_list[i] * 100)) ind = i;
         }
         loopOptions(options, ind);

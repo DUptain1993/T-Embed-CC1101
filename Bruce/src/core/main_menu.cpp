@@ -87,7 +87,7 @@ RESTART: // using gotos to avoid stackoverflow after many choices
         bool enabled = find(l.begin(), l.end(), label) == l.end();
         options.push_back({label, [this, label]() { bruceConfig.addDisabledMenu(label); }, enabled});
     }
-    options.push_back({"Show All", [=]() { bruceConfig.disabledMenus.clear(); }, true});
+    options.push_back({"Show All", [=, this]() { bruceConfig.disabledMenus.clear(); }, true});
     addOptionToMainMenu();
     loopOptions(options);
     bruceConfig.saveFile();

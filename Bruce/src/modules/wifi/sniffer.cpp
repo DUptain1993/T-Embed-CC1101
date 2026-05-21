@@ -1117,7 +1117,7 @@ void sniffer_setup() {
         if (check(SelPress)) { // pressed ok - show menu
             options = {
                 {"New File",
-                 [=]() {
+                 [=, this]() {
                      sniffer_wait_for_flush(1000);
                      if (sniffer_get_mode() == SnifferMode::Full) {
                          rawFileIndex++;

@@ -119,35 +119,35 @@ void setBrightnessMenu() {
 
     options = {
         {"100%",
-         [=]() { setBrightness((uint8_t)100); },
+         [=, this]() { setBrightness((uint8_t)100); },
          bruceConfig.bright == 100,
          [](void *pointer, bool shouldRender) {
              setBrightness((uint8_t)100, false);
              return false;
          }},
         {"75 %",
-         [=]() { setBrightness((uint8_t)75); },
+         [=, this]() { setBrightness((uint8_t)75); },
          bruceConfig.bright == 75,
          [](void *pointer, bool shouldRender) {
              setBrightness((uint8_t)75, false);
              return false;
          }},
         {"50 %",
-         [=]() { setBrightness((uint8_t)50); },
+         [=, this]() { setBrightness((uint8_t)50); },
          bruceConfig.bright == 50,
          [](void *pointer, bool shouldRender) {
              setBrightness((uint8_t)50, false);
              return false;
          }},
         {"25 %",
-         [=]() { setBrightness((uint8_t)25); },
+         [=, this]() { setBrightness((uint8_t)25); },
          bruceConfig.bright == 25,
          [](void *pointer, bool shouldRender) {
              setBrightness((uint8_t)25, false);
              return false;
          }},
         {" 1 %",
-         [=]() { setBrightness((uint8_t)1); },
+         [=, this]() { setBrightness((uint8_t)1); },
          bruceConfig.bright == 1,
          [](void *pointer, bool shouldRender) {
              setBrightness((uint8_t)1, false);
@@ -186,11 +186,11 @@ void setDimmerTimeMenu() {
     else if (bruceConfig.dimmerSet == 60) idx = 3;
     else if (bruceConfig.dimmerSet == 0) idx = 4;
     options = {
-        {"10s",      [=]() { bruceConfig.setDimmer(10); }, bruceConfig.dimmerSet == 10},
-        {"20s",      [=]() { bruceConfig.setDimmer(20); }, bruceConfig.dimmerSet == 20},
-        {"30s",      [=]() { bruceConfig.setDimmer(30); }, bruceConfig.dimmerSet == 30},
-        {"60s",      [=]() { bruceConfig.setDimmer(60); }, bruceConfig.dimmerSet == 60},
-        {"Disabled", [=]() { bruceConfig.setDimmer(0); },  bruceConfig.dimmerSet == 0 },
+        {"10s",      [=, this]() { bruceConfig.setDimmer(10); }, bruceConfig.dimmerSet == 10},
+        {"20s",      [=, this]() { bruceConfig.setDimmer(20); }, bruceConfig.dimmerSet == 20},
+        {"30s",      [=, this]() { bruceConfig.setDimmer(30); }, bruceConfig.dimmerSet == 30},
+        {"60s",      [=, this]() { bruceConfig.setDimmer(60); }, bruceConfig.dimmerSet == 60},
+        {"Disabled", [=, this]() { bruceConfig.setDimmer(0); },  bruceConfig.dimmerSet == 0 },
     };
     loopOptions(options, idx);
 }
@@ -225,7 +225,7 @@ void setUIColor() {
 
         options.push_back(
             {"Custom Color",
-             [=]() {
+             [=, this]() {
                  uint16_t oldPriColor = bruceConfig.priColor;
                  uint16_t oldSecColor = bruceConfig.secColor;
                  uint16_t oldBgColor = bruceConfig.bgColor;
@@ -246,7 +246,7 @@ void setUIColor() {
 
         options.push_back(
             {"Invert Color",
-             [=]() {
+             [=, this]() {
                  bruceConfig.setColorInverted(!bruceConfig.colorInverted);
                  tft.invertDisplay(bruceConfig.colorInverted);
              },
@@ -275,11 +275,11 @@ uint16_t alterOneColorChannel565(uint16_t color, int newR, int newG, int newB) {
 bool setCustomUIColorMenu() {
     while (1) {
         options = {
-            {"Primary",    [=]() { setCustomUIColorChoiceMenu(1); }},
-            {"Secondary",  [=]() { setCustomUIColorChoiceMenu(2); }},
-            {"Background", [=]() { setCustomUIColorChoiceMenu(3); }},
-            {"Save",       [=]() {}                                },
-            {"Cancel",     [=]() {}                                }
+            {"Primary",    [=, this]() { setCustomUIColorChoiceMenu(1); }},
+            {"Secondary",  [=, this]() { setCustomUIColorChoiceMenu(2); }},
+            {"Background", [=, this]() { setCustomUIColorChoiceMenu(3); }},
+            {"Save",       [=, this]() {}                                },
+            {"Cancel",     [=, this]() {}                                }
         };
 
         int selectedOption = loopOptions(options);
@@ -294,10 +294,10 @@ bool setCustomUIColorMenu() {
 void setCustomUIColorChoiceMenu(int colorType) {
     while (1) {
         options = {
-            {"Red Channel",   [=]() { setCustomUIColorSettingMenuR(colorType); }},
-            {"Green Channel", [=]() { setCustomUIColorSettingMenuG(colorType); }},
-            {"Blue Channel",  [=]() { setCustomUIColorSettingMenuB(colorType); }},
-            {"Back",          [=]() {}                                          }
+            {"Red Channel",   [=, this]() { setCustomUIColorSettingMenuR(colorType); }},
+            {"Green Channel", [=, this]() { setCustomUIColorSettingMenuG(colorType); }},
+            {"Blue Channel",  [=, this]() { setCustomUIColorSettingMenuB(colorType); }},
+            {"Back",          [=, this]() {}                                          }
         };
 
         int selectedOption = loopOptions(options);
@@ -429,8 +429,8 @@ void setCustomUIColorSettingMenu(
 **********************************************************************/
 void setSoundConfig() {
     options = {
-        {"Sound off", [=]() { bruceConfig.setSoundEnabled(0); }, bruceConfig.soundEnabled == 0},
-        {"Sound on",  [=]() { bruceConfig.setSoundEnabled(1); }, bruceConfig.soundEnabled == 1},
+        {"Sound off", [=, this]() { bruceConfig.setSoundEnabled(0); }, bruceConfig.soundEnabled == 0},
+        {"Sound on",  [=, this]() { bruceConfig.setSoundEnabled(1); }, bruceConfig.soundEnabled == 1},
     };
     loopOptions(options, bruceConfig.soundEnabled);
 }
@@ -441,16 +441,16 @@ void setSoundConfig() {
 **********************************************************************/
 void setSoundVolume() {
     options = {
-        {"10%",  [=]() { bruceConfig.setSoundVolume(10); },  bruceConfig.soundVolume == 10 },
-        {"20%",  [=]() { bruceConfig.setSoundVolume(20); },  bruceConfig.soundVolume == 20 },
-        {"30%",  [=]() { bruceConfig.setSoundVolume(30); },  bruceConfig.soundVolume == 30 },
-        {"40%",  [=]() { bruceConfig.setSoundVolume(40); },  bruceConfig.soundVolume == 40 },
-        {"50%",  [=]() { bruceConfig.setSoundVolume(50); },  bruceConfig.soundVolume == 50 },
-        {"60%",  [=]() { bruceConfig.setSoundVolume(60); },  bruceConfig.soundVolume == 60 },
-        {"70%",  [=]() { bruceConfig.setSoundVolume(70); },  bruceConfig.soundVolume == 70 },
-        {"80%",  [=]() { bruceConfig.setSoundVolume(80); },  bruceConfig.soundVolume == 80 },
-        {"90%",  [=]() { bruceConfig.setSoundVolume(90); },  bruceConfig.soundVolume == 90 },
-        {"100%", [=]() { bruceConfig.setSoundVolume(100); }, bruceConfig.soundVolume == 100},
+        {"10%",  [=, this]() { bruceConfig.setSoundVolume(10); },  bruceConfig.soundVolume == 10 },
+        {"20%",  [=, this]() { bruceConfig.setSoundVolume(20); },  bruceConfig.soundVolume == 20 },
+        {"30%",  [=, this]() { bruceConfig.setSoundVolume(30); },  bruceConfig.soundVolume == 30 },
+        {"40%",  [=, this]() { bruceConfig.setSoundVolume(40); },  bruceConfig.soundVolume == 40 },
+        {"50%",  [=, this]() { bruceConfig.setSoundVolume(50); },  bruceConfig.soundVolume == 50 },
+        {"60%",  [=, this]() { bruceConfig.setSoundVolume(60); },  bruceConfig.soundVolume == 60 },
+        {"70%",  [=, this]() { bruceConfig.setSoundVolume(70); },  bruceConfig.soundVolume == 70 },
+        {"80%",  [=, this]() { bruceConfig.setSoundVolume(80); },  bruceConfig.soundVolume == 80 },
+        {"90%",  [=, this]() { bruceConfig.setSoundVolume(90); },  bruceConfig.soundVolume == 90 },
+        {"100%", [=, this]() { bruceConfig.setSoundVolume(100); }, bruceConfig.soundVolume == 100},
     };
     loopOptions(options, bruceConfig.soundVolume);
 }
@@ -463,8 +463,8 @@ void setSoundVolume() {
 **********************************************************************/
 void setLedBlinkConfig() {
     options = {
-        {"Led Blink off", [=]() { bruceConfig.setLedBlinkEnabled(0); }, bruceConfig.ledBlinkEnabled == 0},
-        {"Led Blink on",  [=]() { bruceConfig.setLedBlinkEnabled(1); }, bruceConfig.ledBlinkEnabled == 1},
+        {"Led Blink off", [=, this]() { bruceConfig.setLedBlinkEnabled(0); }, bruceConfig.ledBlinkEnabled == 0},
+        {"Led Blink on",  [=, this]() { bruceConfig.setLedBlinkEnabled(1); }, bruceConfig.ledBlinkEnabled == 1},
     };
     loopOptions(options, bruceConfig.ledBlinkEnabled);
 }
@@ -476,8 +476,8 @@ void setLedBlinkConfig() {
 **********************************************************************/
 void setWifiStartupConfig() {
     options = {
-        {"Disable", [=]() { bruceConfig.setWifiAtStartup(0); }, bruceConfig.wifiAtStartup == 0},
-        {"Enable",  [=]() { bruceConfig.setWifiAtStartup(1); }, bruceConfig.wifiAtStartup == 1},
+        {"Disable", [=, this]() { bruceConfig.setWifiAtStartup(0); }, bruceConfig.wifiAtStartup == 0},
+        {"Enable",  [=, this]() { bruceConfig.setWifiAtStartup(1); }, bruceConfig.wifiAtStartup == 1},
     };
     loopOptions(options, bruceConfig.wifiAtStartup);
 }
@@ -502,7 +502,7 @@ void removeEvilWifiMenu() {
         options.push_back({wifi_name.c_str(), [wifi_name]() { bruceConfig.removeEvilWifiName(wifi_name); }});
     }
 
-    options.push_back({"Cancel", [=]() { backToMenu(); }});
+    options.push_back({"Cancel", [=, this]() { backToMenu(); }});
 
     loopOptions(options);
 }
@@ -533,10 +533,10 @@ void setEvilEndpointSsid() {
 void setEvilAllowGetCreds() {
     options = {
         {"Disallow",
-         [=]() { bruceConfig.setEvilAllowGetCreds(false); },
+         [=, this]() { bruceConfig.setEvilAllowGetCreds(false); },
          bruceConfig.evilPortalEndpoints.allowGetCreds == false},
         {"Allow",
-         [=]() { bruceConfig.setEvilAllowGetCreds(true); },
+         [=, this]() { bruceConfig.setEvilAllowGetCreds(true); },
          bruceConfig.evilPortalEndpoints.allowGetCreds == true },
     };
     loopOptions(options, bruceConfig.evilPortalEndpoints.allowGetCreds);
@@ -550,10 +550,10 @@ void setEvilAllowGetCreds() {
 void setEvilAllowSetSsid() {
     options = {
         {"Disallow",
-         [=]() { bruceConfig.setEvilAllowSetSsid(false); },
+         [=, this]() { bruceConfig.setEvilAllowSetSsid(false); },
          bruceConfig.evilPortalEndpoints.allowSetSsid == false},
         {"Allow",
-         [=]() { bruceConfig.setEvilAllowSetSsid(true); },
+         [=, this]() { bruceConfig.setEvilAllowSetSsid(true); },
          bruceConfig.evilPortalEndpoints.allowSetSsid == true },
     };
     loopOptions(options, bruceConfig.evilPortalEndpoints.allowSetSsid);
@@ -567,10 +567,10 @@ void setEvilAllowSetSsid() {
 void setEvilAllowEndpointDisplay() {
     options = {
         {"Disallow",
-         [=]() { bruceConfig.setEvilAllowEndpointDisplay(false); },
+         [=, this]() { bruceConfig.setEvilAllowEndpointDisplay(false); },
          bruceConfig.evilPortalEndpoints.showEndpoints == false},
         {"Allow",
-         [=]() { bruceConfig.setEvilAllowEndpointDisplay(true); },
+         [=, this]() { bruceConfig.setEvilAllowEndpointDisplay(true); },
          bruceConfig.evilPortalEndpoints.showEndpoints == true },
     };
     loopOptions(options, bruceConfig.evilPortalEndpoints.showEndpoints);
@@ -583,16 +583,16 @@ void setEvilAllowEndpointDisplay() {
 void setEvilPasswordMode() {
     options = {
         {"Save 'password'",
-         [=]() { bruceConfig.setEvilPasswordMode(FULL_PASSWORD); },
+         [=, this]() { bruceConfig.setEvilPasswordMode(FULL_PASSWORD); },
          bruceConfig.evilPortalPasswordMode == FULL_PASSWORD  },
         {"Save 'p******d'",
-         [=]() { bruceConfig.setEvilPasswordMode(FIRST_LAST_CHAR); },
+         [=, this]() { bruceConfig.setEvilPasswordMode(FIRST_LAST_CHAR); },
          bruceConfig.evilPortalPasswordMode == FIRST_LAST_CHAR},
         {"Save '*hidden*'",
-         [=]() { bruceConfig.setEvilPasswordMode(HIDE_PASSWORD); },
+         [=, this]() { bruceConfig.setEvilPasswordMode(HIDE_PASSWORD); },
          bruceConfig.evilPortalPasswordMode == HIDE_PASSWORD  },
         {"Save length",
-         [=]() { bruceConfig.setEvilPasswordMode(SAVE_LENGTH); },
+         [=, this]() { bruceConfig.setEvilPasswordMode(SAVE_LENGTH); },
          bruceConfig.evilPortalPasswordMode == SAVE_LENGTH    },
     };
     loopOptions(options, bruceConfig.evilPortalPasswordMode);
@@ -718,25 +718,25 @@ void setRFFreqMenu() {
 void setRFIDModuleMenu() {
     options = {
         {"M5 RFID2",
-         [=]() { bruceConfigPins.setRfidModule(M5_RFID2_MODULE); },
+         [=, this]() { bruceConfigPins.setRfidModule(M5_RFID2_MODULE); },
          bruceConfigPins.rfidModule == M5_RFID2_MODULE     },
 #ifdef M5STICK
         {"PN532 I2C G33",
-         [=]() { bruceConfigPins.setRfidModule(PN532_I2C_MODULE); },
+         [=, this]() { bruceConfigPins.setRfidModule(PN532_I2C_MODULE); },
          bruceConfigPins.rfidModule == PN532_I2C_MODULE    },
         {"PN532 I2C G36",
-         [=]() { bruceConfigPins.setRfidModule(PN532_I2C_SPI_MODULE); },
+         [=, this]() { bruceConfigPins.setRfidModule(PN532_I2C_SPI_MODULE); },
          bruceConfigPins.rfidModule == PN532_I2C_SPI_MODULE},
 #else
         {"PN532 on I2C",
-         [=]() { bruceConfigPins.setRfidModule(PN532_I2C_MODULE); },
+         [=, this]() { bruceConfigPins.setRfidModule(PN532_I2C_MODULE); },
          bruceConfigPins.rfidModule == PN532_I2C_MODULE},
 #endif
         {"PN532 on SPI",
-         [=]() { bruceConfigPins.setRfidModule(PN532_SPI_MODULE); },
+         [=, this]() { bruceConfigPins.setRfidModule(PN532_SPI_MODULE); },
          bruceConfigPins.rfidModule == PN532_SPI_MODULE    },
         {"RC522 on SPI",
-         [=]() { bruceConfigPins.setRfidModule(RC522_SPI_MODULE); },
+         [=, this]() { bruceConfigPins.setRfidModule(RC522_SPI_MODULE); },
          bruceConfigPins.rfidModule == RC522_SPI_MODULE    },
     };
     loopOptions(options, bruceConfigPins.rfidModule);
@@ -868,7 +868,7 @@ void setClock() {
 
             options.emplace_back(
                 ("UTC" + String(offset >= 0 ? "+" : "") + String(offset)).c_str(),
-                [=]() { bruceConfig.setTmz(offset); },
+                [=, this]() { bruceConfig.setTmz(offset); },
                 bruceConfig.tmz == offset
             );
             ++i;
@@ -1048,7 +1048,7 @@ int gsetIrTxPin(bool set) {
 #endif
                 options.push_back(
                     {pin.first,
-                     [=]() { bruceConfigPins.setIrTxPin(pin.second); },
+                     [=, this]() { bruceConfigPins.setIrTxPin(pin.second); },
                      pin.second == bruceConfigPins.irTx}
                 );
         }
@@ -1109,7 +1109,7 @@ int gsetIrRxPin(bool set) {
 #endif
                 options.push_back(
                     {pin.first,
-                     [=]() { bruceConfigPins.setIrRxPin(pin.second); },
+                     [=, this]() { bruceConfigPins.setIrRxPin(pin.second); },
                      pin.second == bruceConfigPins.irRx}
                 );
         }
@@ -1145,7 +1145,7 @@ int gsetRfTxPin(bool set) {
 #endif
                 options.push_back(
                     {pin.first,
-                     [=]() { bruceConfigPins.setRfTxPin(pin.second); },
+                     [=, this]() { bruceConfigPins.setRfTxPin(pin.second); },
                      pin.second == bruceConfigPins.rfTx}
                 );
         }
@@ -1182,7 +1182,7 @@ int gsetRfRxPin(bool set) {
 #endif
                 options.push_back(
                     {pin.first,
-                     [=]() { bruceConfigPins.setRfRxPin(pin.second); },
+                     [=, this]() { bruceConfigPins.setRfRxPin(pin.second); },
                      pin.second == bruceConfigPins.rfRx}
                 );
         }
@@ -1204,7 +1204,7 @@ void setStartupApp() {
     if (bruceConfig.startupApp == "") idx = 0;
 
     options = {
-        {"None", [=]() { bruceConfig.setStartupApp(""); }, bruceConfig.startupApp == ""}
+        {"None", [=, this]() { bruceConfig.setStartupApp(""); }, bruceConfig.startupApp == ""}
     };
 
     int index = 0;
@@ -1212,7 +1212,7 @@ void setStartupApp() {
         index++;
         if (bruceConfig.startupApp == appName) idx = index;
 
-        options.push_back({appName.c_str(), [=]() {
+        options.push_back({appName.c_str(), [=, this]() {
                                bruceConfig.setStartupApp(appName);
 #if !defined(LITE_VERSION) && !defined(DISABLE_INTERPRETER)
                                if (appName == "JS Interpreter") {
@@ -1233,12 +1233,12 @@ void setStartupApp() {
 **********************************************************************/
 void setGpsBaudrateMenu() {
     options = {
-        {"9600 bps",   [=]() { bruceConfigPins.setGpsBaudrate(9600); },  bruceConfigPins.gpsBaudrate == 9600 },
-        {"19200 bps",  [=]() { bruceConfigPins.setGpsBaudrate(19200); }, bruceConfigPins.gpsBaudrate == 19200},
-        {"38400 bps",  [=]() { bruceConfigPins.setGpsBaudrate(38400); }, bruceConfigPins.gpsBaudrate == 38400},
-        {"57600 bps",  [=]() { bruceConfigPins.setGpsBaudrate(57600); }, bruceConfigPins.gpsBaudrate == 57600},
+        {"9600 bps",   [=, this]() { bruceConfigPins.setGpsBaudrate(9600); },  bruceConfigPins.gpsBaudrate == 9600 },
+        {"19200 bps",  [=, this]() { bruceConfigPins.setGpsBaudrate(19200); }, bruceConfigPins.gpsBaudrate == 19200},
+        {"38400 bps",  [=, this]() { bruceConfigPins.setGpsBaudrate(38400); }, bruceConfigPins.gpsBaudrate == 38400},
+        {"57600 bps",  [=, this]() { bruceConfigPins.setGpsBaudrate(57600); }, bruceConfigPins.gpsBaudrate == 57600},
         {"115200 bps",
-         [=]() { bruceConfigPins.setGpsBaudrate(115200); },
+         [=, this]() { bruceConfigPins.setGpsBaudrate(115200); },
          bruceConfigPins.gpsBaudrate == 115200                                                               },
     };
 
@@ -1254,10 +1254,10 @@ void setWifiApSsidMenu() {
 
     options = {
         {"Default (BruceNet)",
-         [=]() { bruceConfig.setWifiApCreds("BruceNet", bruceConfig.wifiAp.pwd); },
+         [=, this]() { bruceConfig.setWifiApCreds("BruceNet", bruceConfig.wifiAp.pwd); },
          isDefault                                                                            },
         {"Custom",
-         [=]() {
+         [=, this]() {
              String newSsid = keyboard(bruceConfig.wifiAp.ssid, 32, "WiFi AP SSID:");
              if (newSsid != "\x1B") {
                  if (!newSsid.isEmpty()) bruceConfig.setWifiApCreds(newSsid, bruceConfig.wifiAp.pwd);
@@ -1279,10 +1279,10 @@ void setWifiApPasswordMenu() {
 
     options = {
         {"Default (brucenet)",
-         [=]() { bruceConfig.setWifiApCreds(bruceConfig.wifiAp.ssid, "brucenet"); },
+         [=, this]() { bruceConfig.setWifiApCreds(bruceConfig.wifiAp.ssid, "brucenet"); },
          isDefault                                                                             },
         {"Custom",
-         [=]() {
+         [=, this]() {
              String newPassword = keyboard(bruceConfig.wifiAp.pwd, 32, "WiFi AP Password:", true);
              if (newPassword != "\x1B") {
                  if (!newPassword.isEmpty()) bruceConfig.setWifiApCreds(bruceConfig.wifiAp.ssid, newPassword);

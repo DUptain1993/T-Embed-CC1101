@@ -10,7 +10,7 @@ void GpsMenu::optionsMenu() {
     options = {
         {"Wardriving",  [this]() { wardrivingMenu(); }},
 #if !defined(LITE_VERSION)
-        {"GPS Tracker", [=]() { GPSTracker(); }       },
+        {"GPS Tracker", [=, this]() { GPSTracker(); }       },
 #endif
         {"Config",      [this]() { configMenu(); }    },
     };
@@ -33,7 +33,7 @@ void GpsMenu::wardrivingMenu() {
 void GpsMenu::configMenu() {
     options = {
         {"Baudrate", setGpsBaudrateMenu                                 },
-        {"GPS Pins", [=]() { setUARTPinsMenu(bruceConfigPins.gps_bus); }},
+        {"GPS Pins", [=, this]() { setUARTPinsMenu(bruceConfigPins.gps_bus); }},
         {"Back",     [this]() { optionsMenu(); }                        },
     };
 

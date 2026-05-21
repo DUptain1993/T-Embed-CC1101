@@ -11,7 +11,7 @@ static void rf_brute_frequency() {
     int arraySize = sizeof(subghz_frequency_list) / sizeof(subghz_frequency_list[0]);
     for (int i = 0; i < arraySize; i++) {
         String tmp = String(subghz_frequency_list[i], 2) + "MHz";
-        options.push_back({tmp.c_str(), [=]() { brute_frequency = subghz_frequency_list[i]; }});
+        options.push_back({tmp.c_str(), [=, this]() { brute_frequency = subghz_frequency_list[i]; }});
         if (int(brute_frequency * 100) == int(subghz_frequency_list[i] * 100)) ind = i;
     }
     loopOptions(options, ind);
@@ -20,7 +20,7 @@ static void rf_brute_frequency() {
 static void rf_brute_protocol() {
     options = {};
     for (int i = 0; i < BRUTE_PROTOCOL_COUNT; i++) {
-        options.push_back({brute_protocols[i].name, [=]() { brute_protocol_idx = i; }});
+        options.push_back({brute_protocols[i].name, [=, this]() { brute_protocol_idx = i; }});
     }
     loopOptions(options, brute_protocol_idx);
 }
@@ -28,7 +28,7 @@ static void rf_brute_protocol() {
 static void rf_brute_repeats() {
     options = {};
     for (int i = 1; i <= 5; i++) {
-        options.push_back({String(i).c_str(), [=]() { brute_repeats = i; }});
+        options.push_back({String(i).c_str(), [=, this]() { brute_repeats = i; }});
     }
     loopOptions(options, brute_repeats - 1);
 }

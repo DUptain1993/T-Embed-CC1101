@@ -184,12 +184,12 @@ bool wifiConnectMenu(wifi_mode_t mode) {
                         String optionText = encryptionPrefix + ssid + "(" + String(rssi) + "|" +
                                             encryptionTypeStr + "|ch." + String(ch) + ")";
 
-                        options.push_back({optionText.c_str(), [=]() {
+                        options.push_back({optionText.c_str(), [=, this]() {
                                                _wifiConnect(ssid, encryptionType);
                                            }});
                     }
                 }
-                options.push_back({"Hidden SSID", [=]() {
+                options.push_back({"Hidden SSID", [=, this]() {
                                        String __ssid = keyboard("", 32, "Your SSID");
                                        _wifiConnect(__ssid.c_str(), 8);
                                    }});

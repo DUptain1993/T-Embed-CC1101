@@ -14,7 +14,7 @@ void BleMenu::optionsMenu() {
     options.clear();
 #if !defined(LITE_VERSION)
     if (BLEConnected) {
-        options.push_back({"Disconnect", [=]() {
+        options.push_back({"Disconnect", [=, this]() {
 #if defined(CONFIG_IDF_TARGET_ESP32C5)
                                esp_bt_controller_deinit();
 #else
@@ -28,19 +28,19 @@ void BleMenu::optionsMenu() {
     }
 #endif
 #if !defined(LITE_VERSION)
-    options.push_back({"Media Cmds", [=]() { MediaCommands(hid_ble, true); }});
+    options.push_back({"Media Cmds", [=, this]() { MediaCommands(hid_ble, true); }});
     options.push_back({"BLE Scan", ble_scan});
-    options.push_back({"iBeacon", [=]() {
+    options.push_back({"iBeacon", [=, this]() {
                            ibeacon("Bruce", "e4c159a0-8c82-11e6-bdf4-0800200c9a66", 0x004C);
                        }});
-    options.push_back({"Bad BLE", [=]() { ducky_setup(hid_ble, true); }});
-    options.push_back({"BLE Keyboard", [=]() { ducky_keyboard(hid_ble, true); }});
+    options.push_back({"Bad BLE", [=, this]() { ducky_setup(hid_ble, true); }});
+    options.push_back({"BLE Keyboard", [=, this]() { ducky_keyboard(hid_ble, true); }});
 #endif
-    options.push_back({"BLE Spam", [=]() { spamMenu(); }});
+    options.push_back({"BLE Spam", [=, this]() { spamMenu(); }});
 
 #if !defined(LITE_VERSION)
-    options.push_back({"BLE Suite", [=]() { BleSuiteMenu(); }});
-    options.push_back({"Ninebot", [=]() { BLENinebot(); }});
+    options.push_back({"BLE Suite", [=, this]() { BleSuiteMenu(); }});
+    options.push_back({"Ninebot", [=, this]() { BLENinebot(); }});
 #endif
     addOptionToMainMenu();
 

@@ -42,8 +42,8 @@ void OthersMenu::optionsMenu() {
 void OthersMenu::badUsbHidMenu() {
     options = {
 #ifndef LITE_VERSION
-        {"BadUSB",       [=]() { ducky_setup(hid_usb, false); }   },
-        {"USB Keyboard", [=]() { ducky_keyboard(hid_usb, false); }},
+        {"BadUSB",       [=, this]() { ducky_setup(hid_usb, false); }   },
+        {"USB Keyboard", [=, this]() { ducky_keyboard(hid_usb, false); }},
 #endif
 
 #ifdef USB_as_HID

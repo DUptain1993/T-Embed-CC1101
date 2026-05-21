@@ -284,7 +284,7 @@ void ARPScanner::afterScanOptions(const Host &host) {
     IPAddress gw = gateway;
     options = {
         {"Host info",
-         [=]() {
+         [=, this]() {
              HostInfo(
                  host, wifiConnected
              ); // At this point we are sure that if user use WiFi is connected for sure
@@ -293,7 +293,7 @@ void ARPScanner::afterScanOptions(const Host &host) {
         {"SSH Connect", lambdaHelper(ssh_setup, host.ip.toString())},
 #endif
         {"Station Deauth",
-         [=]() {
+         [=, this]() {
              if (!wifiConnected) {
                  displayError("Station deauth not available on ethernet");
              } else {
@@ -318,8 +318,8 @@ void ARPScanner::afterScanOptions(const Host &host) {
          }},
 #if !defined(LITE_VERSION)
         {"ARP Poisoning", [this]() { ARPoisoner{gateway}; }},
-        {"DHCP Starvation", [=]() { DHCPStarvation(); }},
-        {"MAC Flooding", [=]() { MACFlooding(); }},
+        {"DHCP Starvation", [=, this]() { DHCPStarvation(); }},
+        {"MAC Flooding", [=, this]() { MACFlooding(); }},
 #endif
     };
     // if(sdcardMounted && bruceConfig.devMode) options.push_back({"ARP MITM (WIP)",  [&](){ opt=5;  }});

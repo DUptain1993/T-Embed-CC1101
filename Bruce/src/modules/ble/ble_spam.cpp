@@ -479,9 +479,9 @@ void legacySubMenu() {
 void spamMenu() {
     std::vector<Option> options;
 #if !defined(LITE_VERSION)
-    options.push_back({"Apple Spam", [=]() { appleSubMenu(); }});
+    options.push_back({"Apple Spam", [=, this]() { appleSubMenu(); }});
 #endif
-    options.push_back({"Apple Spam (Legacy)", [=]() { legacySubMenu(); }});
+    options.push_back({"Apple Spam (Legacy)", [=, this]() { legacySubMenu(); }});
     options.push_back({"Windows Spam", lambdaHelper(aj_adv, 2)});
     options.push_back({"Samsung Spam", lambdaHelper(aj_adv, 3)});
     options.push_back({"Android Spam", lambdaHelper(aj_adv, 4)});

@@ -186,10 +186,10 @@ void shark_loop() {
             while (!check(SelPress)) { yield(); }
             while (check(SelPress)) { yield(); } // debounce
             options = {
-                {"Pirata",       [=]() { displayError("github.com/bmorcelli", true); }   },
-                {"pr3y",         [=]() { displaySuccess("github.com/pr3y", true); }      },
-                {"IncursioHack", [=]() { displayInfo("github.com/IncursioHack", true); } },
-                {"r3ck",         [=]() { displayInfo("github.com/rennancockles", true); }},
+                {"Pirata",       [=, this]() { displayError("github.com/bmorcelli", true); }   },
+                {"pr3y",         [=, this]() { displaySuccess("github.com/pr3y", true); }      },
+                {"IncursioHack", [=, this]() { displayInfo("github.com/IncursioHack", true); } },
+                {"r3ck",         [=, this]() { displayInfo("github.com/rennancockles", true); }},
             };
 
             loopOptions(options);

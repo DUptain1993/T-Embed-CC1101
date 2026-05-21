@@ -13,7 +13,7 @@
 
 void RFMenu::optionsMenu() {
     options = {
-        {"Scan/copy",       [=]() { RFScan(); }       },
+        {"Scan/copy",       [=, this]() { RFScan(); }       },
 #if !defined(LITE_VERSION)
         {"Record RAW",      rf_raw_record             }, // Pablo-Ortiz-Lopez
         {"Custom SubGhz",   sendCustomRF              },
@@ -27,7 +27,7 @@ void RFMenu::optionsMenu() {
         {"Listen",          rf_listen                 }, // dev_eclipse
 #endif
         {"Bruteforce",      rf_bruteforce             }, // dev_eclipse
-        {"Jammer",          [=]() { RFJammer(true); } },
+        {"Jammer",          [=, this]() { RFJammer(true); } },
 #endif
         {"Config",          [this]() { configMenu(); }},
     };

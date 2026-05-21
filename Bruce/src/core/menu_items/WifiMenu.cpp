@@ -50,7 +50,7 @@ void WifiMenu::optionsMenu() {
     if (WiFi.status() != WL_CONNECTED) {
         options = {
             {"Connect to Wifi", lambdaHelper(wifiConnectMenu, WIFI_STA)},
-            {"Start WiFi AP", [=]() {
+            {"Start WiFi AP", [=, this]() {
                  wifiConnectMenu(WIFI_AP);
                  displayInfo("pwd: " + bruceConfig.wifiAp.pwd, true);
              }},
@@ -61,14 +61,14 @@ void WifiMenu::optionsMenu() {
         options.push_back({"AP info", displayAPInfo});
     }
     options.push_back({"Wifi Atks", wifi_atk_menu});
-    options.push_back({"Evil Portal", [=]() {
+    options.push_back({"Evil Portal", [=, this]() {
                            // WebUI cleanup now handled automatically inside EvilPortal constructor
                            EvilPortal();
                        }});
-    options.push_back({"NetCut", [=]() {
+    options.push_back({"NetCut", [=, this]() {
                            netcutMenu();
                        }});
-    // options.push_back({"ReverseShell", [=]()       { ReverseShell(); }});
+    // options.push_back({"ReverseShell", [=, this]()       { ReverseShell(); }});
 #ifndef LITE_VERSION
     options.push_back({"Listen TCP", listenTcpPort});
     options.push_back({"Client TCP", clientTCP});
@@ -76,7 +76,7 @@ void WifiMenu::optionsMenu() {
     options.push_back({"TelNET", telnet_setup});
     options.push_back({"SSH", lambdaHelper(ssh_setup, String(""))});
     options.push_back({"Sniffer", sniffer_setup});
-    options.push_back({"Scan Hosts", [=]() {
+    options.push_back({"Scan Hosts", [=, this]() {
                            bool doScan = true;
                            if (!wifiConnected) doScan = wifiConnectMenu();
 

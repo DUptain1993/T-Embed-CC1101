@@ -16,24 +16,24 @@
 void RFIDMenu::optionsMenu() {
     options = {
 #if !defined(REMOVE_RFID_HW_INTERFACE)  // Remove Hardware interface menu due to lack of external GPIO
-        {"Read tag",    [=]() { TagOMatic(); }                          },
+        {"Read tag",    [=, this]() { TagOMatic(); }                          },
 #ifndef LITE_VERSION
-        {"Read EMV",    [=]() { EMVReader(); }                          },
-        {"Read 125kHz", [=]() { RFID125(); }                            },
+        {"Read EMV",    [=, this]() { EMVReader(); }                          },
+        {"Read 125kHz", [=, this]() { RFID125(); }                            },
 #endif
-        {"Scan tags",   [=]() { TagOMatic(TagOMatic::SCAN_MODE); }      },
-        {"Load file",   [=]() { TagOMatic(TagOMatic::LOAD_MODE); }      },
-        {"Erase data",  [=]() { TagOMatic(TagOMatic::ERASE_MODE); }     },
-        {"Write NDEF",  [=]() { TagOMatic(TagOMatic::WRITE_NDEF_MODE); }},
+        {"Scan tags",   [=, this]() { TagOMatic(TagOMatic::SCAN_MODE); }      },
+        {"Load file",   [=, this]() { TagOMatic(TagOMatic::LOAD_MODE); }      },
+        {"Erase data",  [=, this]() { TagOMatic(TagOMatic::ERASE_MODE); }     },
+        {"Write NDEF",  [=, this]() { TagOMatic(TagOMatic::WRITE_NDEF_MODE); }},
 #endif
 #ifndef LITE_VERSION
-        {"Amiibolink",  [=]() { Amiibo(); }                             },
+        {"Amiibolink",  [=, this]() { Amiibo(); }                             },
 #endif
-        {"Chameleon",   [=]() { Chameleon(); }                          },
+        {"Chameleon",   [=, this]() { Chameleon(); }                          },
 #ifndef LITE_VERSION
-        {"PN532 BLE",   [=]() { Pn532ble(); }                           },
+        {"PN532 BLE",   [=, this]() { Pn532ble(); }                           },
 #if !defined(REMOVE_RFID_HW_INTERFACE)  // Remove Hardware interface menu due to lack of external GPIO
-        {"PN532 UART",  [=]() { PN532KillerTools(); }                   },
+        {"PN532 UART",  [=, this]() { PN532KillerTools(); }                   },
 #endif
 #endif
         {"Config",      [this]() { configMenu(); }                      },
@@ -43,7 +43,7 @@ void RFIDMenu::optionsMenu() {
 #ifndef LITE_VERSION
     if (bruceConfigPins.rfidModule == PN532_I2C_MODULE) {
         // Added SRIX Menu only if PN is set to i2c mode
-        options.insert(options.begin() + 3, {"SRIX Tool", [=]() { PN532_SRIX(); }});
+        options.insert(options.begin() + 3, {"SRIX Tool", [=, this]() { PN532_SRIX(); }});
     }
 #endif
 #endif
