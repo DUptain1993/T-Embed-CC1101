@@ -1,0 +1,52 @@
+name: Build Upgraded Bruce Firmware (T-Embed CC1101)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'Bruce/src/**'
+      - 'Bruce/include/**'
+      - 'Bruce/lib/**'
+      - 'Bruce/platformio.ini'
+      - '.github/workflows/bruce-tembed-build.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Lilygo T-Embed CC1101
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Cache PlatformIO
+        uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: ${{ runner.os }}-platformio-${{ hashFiles('Bruce/platformio.ini') }}
+          restore-keys: |
+            ${{ runner.os }}-platformio-
+
+      - name: Install PlatformIO
+        run: |
+          pip install platformio
+          pip install requests esptool intelhex
+
+      - name: Run Build
+        working-directory: Bruce
+        run: |
+          platformio run -e lilygo-t-embed-cc1101
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bruce-T-Embed-CC1101-Firmware
+          path: Bruce/Bruce-lilygo-t-embed-cc1101.bin
