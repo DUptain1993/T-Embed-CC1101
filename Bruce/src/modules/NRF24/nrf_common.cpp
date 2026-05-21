@@ -92,7 +92,7 @@ NRF24_MODE nrf_setMode() {
         {"SPI Mode",  [&]() { mode = NRF_MODE_SPI; } },
         {"SPI UART",  [&]() { mode = NRF_MODE_UART; }},
         {"SPI BOTH",  [&]() { mode = NRF_MODE_BOTH; }},
-        {"Main Menu", [=, this]() { returnToMenu = true; } }
+        {"Main Menu", [=]() { returnToMenu = true; } }
     };
     loopOptions(options);
     return mode;

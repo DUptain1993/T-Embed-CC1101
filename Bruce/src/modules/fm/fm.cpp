@@ -77,7 +77,7 @@ void fm_options_frq(uint16_t f_min, bool reserved) {
     options = {};
     for (uint16_t f = f_min; f < f_max; f += 10) {
         sprintf(f_str, "%d Hz", f);
-        options.push_back({f_str, [=, this]() { set_frq(f); }});
+        options.push_back({f_str, [=]() { set_frq(f); }});
     }
     addOptionToMainMenu();
 
@@ -112,7 +112,7 @@ void fm_options_digit(uint16_t f_min, bool reserved) {
     options = {};
     for (uint16_t f = f_min; f < f_max; f += 1) {
         sprintf(f_str, "%d MHz", f);
-        options.push_back({f_str, [=, this]() { fm_options_frq(f, reserved); }});
+        options.push_back({f_str, [=]() { fm_options_frq(f, reserved); }});
     }
     addOptionToMainMenu();
 
@@ -129,11 +129,11 @@ void fm_options(uint16_t f_min, uint16_t f_max, bool reserved) {
 
     options = {};
     if (!reserved) {
-        options.push_back({"Auto", [=, this]() { set_auto_scan(true); }});
+        options.push_back({"Auto", [=]() { set_auto_scan(true); }});
     }
     for (uint16_t f = f_min; f < f_max; f += 10) {
         sprintf(f_str, "%d MHz", f);
-        options.push_back({f_str, [=, this]() { fm_options_digit(f, reserved); }});
+        options.push_back({f_str, [=]() { fm_options_digit(f, reserved); }});
     }
     addOptionToMainMenu();
 

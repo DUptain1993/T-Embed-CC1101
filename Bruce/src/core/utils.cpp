@@ -11,7 +11,7 @@
 when using loopfunctions with an option to "Back to Menu", use:
 
 add this option:
-    options.push_back({"Main Menu", [=, this]() { backToMenu(); }});
+    options.push_back({"Main Menu", [=]() { backToMenu(); }});
 
 while(1) {
     if(returnToMenu) break; // stop this loop and return to the previous loop

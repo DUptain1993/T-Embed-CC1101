@@ -1883,14 +1883,14 @@ bool selectPortalTemplate(bool isInitialSetup) {
                                    }});
     }
     templateOptions.push_back(
-        {"Load Custom File", [=, this]() {
+        {"Load Custom File", [=]() {
              drawMainBorderWithTitle("LOAD FROM");
              std::vector<Option> directOptions;
 
              FS *fs = nullptr;
              if (getFsStorage(fs) && fs == &SD) {
                  directOptions.push_back(
-                     {"SD Card", [=, this]() {
+                     {"SD Card", [=]() {
                           drawMainBorderWithTitle("BROWSE SD");
                           String templateFile = loopSD(SD, true, "HTML", "/");
                           if (templateFile.length() > 0) {
@@ -1926,7 +1926,7 @@ bool selectPortalTemplate(bool isInitialSetup) {
              }
 
              directOptions.push_back(
-                 {"LittleFS", [=, this]() {
+                 {"LittleFS", [=]() {
                       drawMainBorderWithTitle("BROWSE LITTLEFS");
                       if (LittleFS.begin()) {
                           String templateFile = loopSD(LittleFS, true, "HTML", "/");
@@ -1966,12 +1966,12 @@ bool selectPortalTemplate(bool isInitialSetup) {
                   }}
              );
 
-             directOptions.push_back({"Back", [=, this]() {}});
+             directOptions.push_back({"Back", [=]() {}});
              loopOptions(directOptions);
              drawMainBorderWithTitle("SELECT TEMPLATE");
          }}
     );
-    templateOptions.push_back({"Disable Auto-Portal", [=, this]() {
+    templateOptions.push_back({"Disable Auto-Portal", [=]() {
                                    karmaConfig.enableAutoPortal = false;
                                    templateSelected = false;
                                    if (isInitialSetup) {
@@ -1980,7 +1980,7 @@ bool selectPortalTemplate(bool isInitialSetup) {
                                        delay(1000);
                                    }
                                }});
-    templateOptions.push_back({"Reload Templates", [=, this]() {
+    templateOptions.push_back({"Reload Templates", [=]() {
                                    loadPortalTemplates();
                                    displayTextLine("Templates reloaded");
                                    delay(1000);

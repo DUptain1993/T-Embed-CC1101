@@ -278,10 +278,10 @@ void wifi_atk_menu() {
     options = {
         {"Target Atks",  [&]() { scanAtks = true; }    },
 #ifndef LITE_VERSION
-        {"Karma Attack", [=, this]() { karma_setup(); }      },
+        {"Karma Attack", [=]() { karma_setup(); }      },
 #endif
-        {"Beacon SPAM",  [=, this]() { beaconAttack(); }     },
-        {"Deauth Flood", [=, this]() { deauthFloodAttack(); }},
+        {"Beacon SPAM",  [=]() { beaconAttack(); }     },
+        {"Deauth Flood", [=]() { deauthFloodAttack(); }},
     };
     addOptionToMainMenu();
     loopOptions(options);
@@ -342,7 +342,7 @@ void wifi_atk_menu() {
             String optionText = encryptionPrefix + displaySSID + " (" + String(rssi) + "|" +
                                 encryptionTypeStr + "|ch." + String(ch) + ")";
 
-            options.push_back({optionText.c_str(), [=, this]() {
+            options.push_back({optionText.c_str(), [=]() {
                                    ap_record = ap_records[i];
                                    target_atk_menu(
                                        WiFi.SSID(i).c_str(),
@@ -715,15 +715,15 @@ void capture_handshake(String tssid, String mac, uint8_t channel) {
 void target_atk_menu(String tssid, String mac, uint8_t channel) {
 AGAIN:
     options = {
-        {"Information",         [=, this]() { wifi_atk_info(tssid, mac, channel); }      },
-        {"Deauth",              [=, this]() { target_atk(tssid, mac, channel); }         },
+        {"Information",         [=]() { wifi_atk_info(tssid, mac, channel); }      },
+        {"Deauth",              [=]() { target_atk(tssid, mac, channel); }         },
 #ifndef LITE_VERSION
-        {"Capture Handshake",   [=, this]() { capture_handshake(tssid, mac, channel); }  },
+        {"Capture Handshake",   [=]() { capture_handshake(tssid, mac, channel); }  },
 #endif
-        {"Clone Portal",        [=, this]() { EvilPortal(tssid, channel, false, false); }},
-        {"Deauth+Clone",        [=, this]() { EvilPortal(tssid, channel, true, false); } },
+        {"Clone Portal",        [=]() { EvilPortal(tssid, channel, false, false); }},
+        {"Deauth+Clone",        [=]() { EvilPortal(tssid, channel, true, false); } },
         {"Deauth+Clone+Verify",
-         [=, this]() // New WiFi Attack
+         [=]() // New WiFi Attack
          { EvilPortal(tssid, channel, true, true); }                               },
     };
     addOptionToMainMenu();

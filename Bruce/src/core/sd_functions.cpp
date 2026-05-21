@@ -690,12 +690,12 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
             if (check(SelPress)) {
                 if (fileList[index].folder == true && fileList[index].operation == false) {
                     options = {
-                        {"New Folder", [=, this]() { createFolder(fs, Folder); }                                 },
+                        {"New Folder", [=]() { createFolder(fs, Folder); }                                 },
                         {"Rename",
-                         [=, this]() {
+                         [=]() {
                              renameFile(fs, Folder + fileList[index].filename, fileList[index].filename);
                          }                                                                                 },
-                        {"Delete",     [=, this]() { deleteFromSd(fs, Folder + "/" + fileList[index].filename); }},
+                        {"Delete",     [=]() { deleteFromSd(fs, Folder + "/" + fileList[index].filename); }},
                         {"Close Menu", [&]() { yield(); }                                                  },
                         {"Main Menu",  [&]() { exit = true; }                                              },
                     };
@@ -708,9 +708,9 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
                     goto Files;
                 } else {
                     options = {
-                        {"New Folder", [=, this]() { createFolder(fs, Folder); }},
+                        {"New Folder", [=]() { createFolder(fs, Folder); }},
                     };
-                    if (fileToCopy != "") options.push_back({"Paste", [=, this]() { pasteFile(fs, Folder); }});
+                    if (fileToCopy != "") options.push_back({"Paste", [=]() { pasteFile(fs, Folder); }});
                     options.push_back({"Close Menu", [&]() { yield(); }});
                     options.push_back({"Main Menu", [&]() { exit = true; }});
                     while (check(SelPress)) { yield(); } // wait for SEL release to avoid repeated activations
@@ -737,18 +737,18 @@ String loopSD(FS &fs, bool filePicker, String allowed_ext, String rootPath) {
                     fileList.clear(); // Clear memory to allow other functions to work better
 
                     options = {
-                        {"View File",  [=, this]() { viewFile(fs, filepath); }            },
-                        {"File Info",  [=, this]() { fileInfo(fs, filepath); }            },
-                        {"Rename",     [=, this]() { renameFile(fs, filepath, filename); }},
-                        {"Copy",       [=, this]() { copyFile(fs, filepath); }            },
-                        {"Delete",     [=, this]() { deleteFromSd(fs, filepath); }        },
-                        {"New Folder", [=, this]() { createFolder(fs, Folder); }          },
+                        {"View File",  [=]() { viewFile(fs, filepath); }            },
+                        {"File Info",  [=]() { fileInfo(fs, filepath); }            },
+                        {"Rename",     [=]() { renameFile(fs, filepath, filename); }},
+                        {"Copy",       [=]() { copyFile(fs, filepath); }            },
+                        {"Delete",     [=]() { deleteFromSd(fs, filepath); }        },
+                        {"New Folder", [=]() { createFolder(fs, Folder); }          },
                     };
-                    if (fileToCopy != "") options.push_back({"Paste", [=, this]() { pasteFile(fs, Folder); }});
+                    if (fileToCopy != "") options.push_back({"Paste", [=]() { pasteFile(fs, Folder); }});
                     if (&fs == &SD)
-                        options.push_back({"Copy->LittleFS", [=, this]() { copyToFs(SD, LittleFS, filepath); }});
+                        options.push_back({"Copy->LittleFS", [=]() { copyToFs(SD, LittleFS, filepath); }});
                     if (&fs == &LittleFS && sdcardMounted)
-                        options.push_back({"Copy->SD", [=, this]() { copyToFs(LittleFS, SD, filepath); }});
+                        options.push_back({"Copy->SD", [=]() { copyToFs(LittleFS, SD, filepath); }});
 
                     // custom file formats commands added in front
                     if (filepath.endsWith(".jpg") || filepath.endsWith(".gif") || filepath.endsWith(".bmp") ||

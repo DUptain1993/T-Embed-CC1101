@@ -123,14 +123,14 @@ void remove_custom_qrcode() {
 
     // Populate options with the QR codes from the config
     for (const auto &entry : bruceConfig.qrCodes) {
-        options.emplace_back(entry.menuName.c_str(), [=, this]() {
+        options.emplace_back(entry.menuName.c_str(), [=]() {
             bruceConfig.removeQrCodeEntry(entry.menuName);
             log_i("Removed QR code: %s", entry.menuName.c_str());
             custom_qrcode_menu();
         });
     }
 
-    options.emplace_back("Back", [=, this]() { custom_qrcode_menu(); });
+    options.emplace_back("Back", [=]() { custom_qrcode_menu(); });
 
     loopOptions(options);
 }

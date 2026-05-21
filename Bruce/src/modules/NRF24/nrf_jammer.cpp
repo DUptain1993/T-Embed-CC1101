@@ -770,7 +770,7 @@ void nrf_jammer() {
     options.push_back({"Single CH", [&selectedAction]() { selectedAction = 2; }});
     options.push_back({"CH Hopper", [&selectedAction]() { selectedAction = 3; }});
     options.push_back({"Reset Settings", [&selectedAction]() { selectedAction = 4; }});
-    options.push_back({"Back", [=, this]() { returnToMenu = true; }});
+    options.push_back({"Back", [=]() { returnToMenu = true; }});
 
     loopOptions(options, MENU_TYPE_SUBMENU, "NRF Jammer");
 

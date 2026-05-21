@@ -227,7 +227,7 @@ std::vector<Option> getScriptsOptionsList(String currentPath, bool saveStartupSc
 
             // Add folder option
             String folderTitle = "[ " + nameOnly + " ]";
-            opt.push_back({folderTitle.c_str(), [=, this]() {
+            opt.push_back({folderTitle.c_str(), [=]() {
                                auto subOptions = getScriptsOptionsList(fullPath, saveStartupScript);
                                if (subOptions.size() > 0) {
                                    String displayPath = fullPath;
@@ -246,7 +246,7 @@ std::vector<Option> getScriptsOptionsList(String currentPath, bool saveStartupSc
             if (ext != "JS" && ext != "BJS") continue;
 
             String entry_title = nameOnly.substring(0, nameOnly.lastIndexOf(".")); // remove the extension
-            opt.push_back({entry_title.c_str(), [=, this]() {
+            opt.push_back({entry_title.c_str(), [=]() {
                                if (saveStartupScript) {
                                    bruceConfig.startupAppJSInterpreterFile = fullPath;
                                    bruceConfig.saveFile();
@@ -279,7 +279,7 @@ std::vector<Option> getScriptsOptionsList(String currentPath, bool saveStartupSc
     // Add back navigation if we're in a subdirectory
     if (currentPath != "" && currentPath != getScriptsFolder(fs)) {
         opt.push_back(
-            {"< Back", [=, this]() {
+            {"< Back", [=]() {
                  // Calculate parent directory
                  String parentPath = currentPath;
                  int lastSlash = parentPath.lastIndexOf('/');

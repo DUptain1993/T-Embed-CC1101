@@ -75,7 +75,7 @@ class AdvertisedDeviceCallbacks : public NimBLEAdvertisedDeviceCallbacks {
         if (bt_name.isEmpty()) bt_name = "<no name>";
         // If BT name is empty, set NONAME
         if (options.size() < 250)
-            options.emplace_back(bt_title.c_str(), [=, this]() { ble_info(bt_name, bt_address, bt_signal); });
+            options.emplace_back(bt_title.c_str(), [=]() { ble_info(bt_name, bt_address, bt_signal); });
         else {
             Serial.println("Memory low, stopping BLE scan...");
             pBLEScan->stop();
@@ -141,7 +141,7 @@ void ble_scan() {
         if (bt_name.isEmpty()) bt_name = "<no name>";
         // If BT name is empty, set NONAME
         if (options.size() < 250)
-            options.emplace_back(bt_title.c_str(), [=, this]() { ble_info(bt_name, bt_address, bt_signal); });
+            options.emplace_back(bt_title.c_str(), [=]() { ble_info(bt_name, bt_address, bt_signal); });
         else {
             Serial.println("Memory low, stopping BLE scan...");
             pBLEScan->stop();
